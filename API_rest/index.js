@@ -22,6 +22,8 @@ class App {
     listen() {
         this.app.listen( this.app.get("port") , () => {
             console.log("Servidor corriendo en puerto", this.app.get("port"));
+        }).on("error", ()=>{
+            console.error("Error al iniciar el server")
         });
     }
 }
