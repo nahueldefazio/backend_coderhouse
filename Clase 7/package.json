@@ -9,7 +9,6 @@
   },
   "author": "",
   "license": "ISC",
-  "homepage": "https://github.com/alexanderrr1/node-coderhouse#readme",
   "dependencies": {
     "dotenv": "^12.0.4",
     "express": "^4.17.2",
