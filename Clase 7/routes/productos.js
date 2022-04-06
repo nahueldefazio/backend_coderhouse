@@ -2,10 +2,12 @@ const { Router } = require('express');
 
 const router = Router();
 
-const { obtenerProductos, obtenerProducto, agregarProducto, modificarProducto, eliminarProducto } = require('../controllers/productos');
+
+const { obtenerProductos, obtenerProducto, agregarProducto, modificarProducto, eliminarProducto, esAdmin } = require('../controllers/productos');
 
 // Permite listar todos los productos
-router.get( '/', obtenerProductos );
+router.get( '/',[esAdmin], obtenerProductos );
+
 
 // Permite listar un producto por ID
 router.get( '/:id', obtenerProducto );
