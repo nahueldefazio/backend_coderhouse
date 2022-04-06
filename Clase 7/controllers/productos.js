@@ -7,6 +7,14 @@ const productosDB = './db/productos.txt';
 const utf = 'utf-8'
 const isAdmin = process.env.ADMIN;
 
+const esAdmin = async (req, res, next)=>{
+    if (req.headers.authorization !== null && req.headers.authorization){
+        next()
+    }else{
+        res.send ("Error, admin no authorization")
+    }
+}
+
 const obtenerProductos = async(req = request, res = response) => {
     const productosList = await leerProductosDB();
     return res.json({
@@ -31,12 +39,6 @@ const obtenerProducto = async( req = request, res = response ) => {
 
 const agregarProducto = async( req = request, res = response ) => {
 
-    if(!isAdmin){
-        return res.status(401).json({
-            msg: 'No está autorizado para realizar esta operación.'
-        })
-    }
-
     const { nombre, descripcion, codigo, foto, precio, stock } = req.body;
     const productosList = await leerProductosDB();
     const producto = new Producto(
@@ -58,11 +60,7 @@ const agregarProducto = async( req = request, res = response ) => {
 }
 
 const modificarProducto = async( req = request, res = response ) => {
-    if(!isAdmin){
-        return res.status(401).json({
-            msg: 'No está autorizado para realizar esta operación.'
-        })
-    }
+   
     const { id } = req.params;
     const { nombre, descripcion, codigo, foto, precio, stock } = req.body;
     const productList = await leerProductosDB();
@@ -91,11 +89,7 @@ const modificarProducto = async( req = request, res = response ) => {
 }
 
 const eliminarProducto = async( req = request, res = response ) => {
-    if(!isAdmin){
-        return res.status(401).json({
-            msg: 'No está autorizado para realizar esta operación.'
-        })
-    }
+    
     const { id } = req.params;
     const productList = await leerProductosDB();
     const productoParaEliminar = productList.filter(product => product.id == id)[0];
@@ -132,5 +126,6 @@ module.exports = {
     obtenerProducto,
     agregarProducto,
     modificarProducto,
-    eliminarProducto
+    eliminarProducto,
+    esAdmin
 }
