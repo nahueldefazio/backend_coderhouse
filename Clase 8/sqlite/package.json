@@ -9,14 +9,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alexanderrr1/node-coderhouse.git"
   },
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/alexanderrr1/node-coderhouse/issues"
   },
-  "homepage": "https://github.com/alexanderrr1/node-coderhouse#readme",
+
   "dependencies": {
     "dotenv": "^12.0.4",
     "express": "^4.17.2",
