@@ -1,3 +1,4 @@
+import { Axios } from 'axios';
 import 'dotenv/config';
 import AxiosMidle from '../midle/axios-midle.js'
 
@@ -42,4 +43,3 @@ export const getAllTest = (all) => {
         console.log('Error en Solicitud', err);
     })
 }
-

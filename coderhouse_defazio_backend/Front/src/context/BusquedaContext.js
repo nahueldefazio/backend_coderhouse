@@ -6,6 +6,7 @@ const BusquedaProvider = ( {children} ) => {
     const [busqueda, setBusqueda] = useState('');
     
     const [usuario, setUsuario] = useState({
+        username: '',
         nombre: '',
         apellido: '',
         email: '',
@@ -14,7 +15,7 @@ const BusquedaProvider = ( {children} ) => {
         localidad: '',
         provincia: '',
         dni: '',
-        pass: ''
+        password: ''
     })
     return (
         <>

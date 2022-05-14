@@ -5,7 +5,7 @@ import axios from 'axios';
     config.headers = {
         'Content-Type': 'application/json'
     }
-    config.withCredentials = true  
+    config.withCredentials = true
     return config;
    }, function (error) {
         return Promise.reject(error);

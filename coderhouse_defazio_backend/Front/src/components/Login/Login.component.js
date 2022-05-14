@@ -5,7 +5,7 @@ import { Modal, Button } from "react-bootstrap";
 import { BusquedaContext } from "../../context/BusquedaContext";
 import './Login.css';
 import { useHistory } from 'react-router';
-import { pedirUsuario } from "../../modelos/usuarios.models";
+import { pedirUsuario, logOut } from "../../modelos/usuarios.models";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 
@@ -26,8 +26,8 @@ export const UserAuthenticate = () => {
     const handleSubmit =(e) => {
         e.preventDefault();
         pedirUsuario(nombreUsuario, '', pass, (res) => {
-            if (res.length>0) {
-                setUsuario(res[0]);
+            if (res.username!=null) {
+                setUsuario(res);
                 setIsAuthenticated(true);
                 history.push('/');
             } else {
@@ -37,16 +37,18 @@ export const UserAuthenticate = () => {
                     title: 'Usario o Contraseña Incorrecto.',
                     showConfirmButton: false,
                     timer: 2500
-                  })
+                })
             }
         })
     }
 
     const handleSalir = () => {
-        setShow(false);
-        setIsAuthenticated(false);
-        setNombreUsuario('');
-        history.push('/');      
+        logOut(() => {
+            setShow(false);
+            setIsAuthenticated(false);
+            setNombreUsuario('');
+            history.push('/');      
+        })
     }
 
     const handleRegis = () => { 

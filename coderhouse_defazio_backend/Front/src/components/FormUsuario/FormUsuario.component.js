@@ -10,7 +10,8 @@ export const FormUsuario = ({enviar, loading}) => {
     const handleInputChange = (e) => {
         setUsuario({
             ...usuario,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
+            username: usuario.email
         })
     }
 
@@ -136,15 +137,15 @@ export const FormUsuario = ({enviar, loading}) => {
                         <div className="col-lg-2 col-md-4 col-xs-12">
                             <input
                                 className="form-control m-2"
-                                type="text"
+                                type="password"
                                 placeholder="PASSWORD"
-                                name="pass"
-                                value={usuario.pass}
+                                name="password"
+                                value={usuario.password}
                                 onChange={handleInputChange}
                             />
                         </div>
                         <div className="col-2">
-                            {usuario.pass.length < 8 && <Badge pill bg="warning" text="dark">Password debe ser Mayor a 8 caracteres</Badge>}
+                            {usuario.password.length < 8 && <Badge pill bg="warning" text="dark">Password debe ser Mayor a 8 caracteres</Badge>}
                         </div>
                     </div>
                     <button className="btn btn-success my-3" disabled={loading} type="submit"><Check size="25px"/> Registrar</button>

@@ -14,7 +14,8 @@ export const getById = async (id, orden) => {
 }
 
 export const getByUs = async (mail, pass, us) => {
-    await AxiosMidle.get(`${server}/api/usuario/email/${mail}?pass=${pass}`)
+    const json = {username: mail, password: pass}
+    await AxiosMidle.post(`${server}/api/usuario/login/`, json)
     .then(res => {
         us(res.data);
     })
@@ -33,4 +34,12 @@ export const nuevoUsuario = async (usuario, res) => {
     })
 }
 
-
+export const logOut = async (us) => {
+    await AxiosMidle.get(`${server}/api/usuario/logout/`)
+    .then(res => {
+        us();
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
