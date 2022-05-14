@@ -1,5 +1,5 @@
 const auth = (req, res, next) => {
-    if (req.session.login) {
+    if (req.isAuthenticated()) {
         req.session.touch()
         next();
     } else {

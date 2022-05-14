@@ -1,6 +1,11 @@
 import mongoose from 'mongoose';
 
 const Schema = new mongoose.Schema({
+    username: {
+        type: String,
+        required: true,
+        max: 1000
+    },
     nombre: {
         type: String,
         required: true,
@@ -48,7 +53,7 @@ const Schema = new mongoose.Schema({
     updated_at: {
         type: Date
     },
-    pass: {
+    password: {
         type: String,
         required: true,
         max: 10000

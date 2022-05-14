@@ -1,37 +1,44 @@
+import minimist from 'minimist';
 import routerProd from "./routes/productos.route.js";
 import routerProdTest from "./routes/productosTest.route.js";
 import routerCarrito from "./routes/carrito.route.js";
 import routerUsuarios from "./routes/usuario.route.js";
+import routerInfo from "./routes/info.route.js";
+import routerRandoms from "./routes/randoms.route.js";
 import express  from 'express';
 import http from 'http';
 import cors from 'cors';
-import cookieParser from 'cookie-parser';
 import { Server as SocketSrv } from 'socket.io';
 import Mensajes from "./controlers/mensajes.controler.js";
 import session from 'express-session';
 import mongoStore from 'connect-mongo';
 import 'dotenv/config';
+import passport from "./utils/passport.util.js";
 
-
-const port = process.env.PORT_SRV;
+const options = {
+   default: {
+      port: 8080
+   }
+}
+const arg = minimist(process.argv.slice(2), options);
+const port = arg.port;
 const app = express();
 const server = http.createServer(app);
 const io = new SocketSrv(server, {
    cors: { origin: '*'}
 });
 const msgsClass = new Mensajes();
+const msgs = [];
 
 app.use(cors({
    origin: 'http://localhost:3000',
    methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD'],
-   credentials: true
+   credentials: true,
 }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
 app.use(session({
-   name: 'CREDENCIALES',
    store: mongoStore.create({
       mongoUrl: process.env.MONGO_URI,
       options: {
@@ -44,15 +51,20 @@ app.use(session({
    saveUninitialized: true,
    cookie: {
       httpOnly: true,
-      maxAge: 1000 * 60,
+      maxAge: Number(process.env.EXPIRE),
       sameSite: false
    },
    rolling: true
 }));
+
+app.use(passport.initialize());
+app.use(passport.session());
 app.use("/api/productos", routerProd);     
 app.use("/api/productos-test", routerProdTest);     
 app.use("/api/carrito", routerCarrito);
 app.use("/api/usuario", routerUsuarios);
+app.use("/api/info", routerInfo);
+app.use("/api/randoms", routerRandoms);
 app.get('*', (req, res) => {
    res.status(400).json({descripcion: `Ruta ${req.originalUrl} Inexistente.`});
 });

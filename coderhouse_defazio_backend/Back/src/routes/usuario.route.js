@@ -1,46 +1,38 @@
 import express  from 'express';
 import Usuarios from '../controlers/usuarios.controler.js';
 import auth from '../middle/auth.middle.js';
+import passport from "../utils/passport.util.js";
+import * as AuthController from "../controlers/auth.controler.js";
 
 const routerUsuarios = express.Router();
 const usuarios = new Usuarios();
 
-routerUsuarios.get("/:id", auth, async (req, res) => {
-    const { ...rest } = req.params;
-    const id = rest.id;
-    await usuarios.getById(id, u => {
-        if(u===undefined){
-            res.status(400).json({error: 'usuario No Encontrado.'})
-        } else {
-            res.status(200).json(u);
-        }
-    });       
-});
+ routerUsuarios.get("/:id", auth, async (req, res) => {
+     const { ...rest } = req.params;
+     const id = rest.id;
+     await usuarios.getById(id, u => {
+         if(u===undefined){
+             res.status(400).json({error: 'usuario No Encontrado.'})
+         } else {
+             res.status(200).json(u);
+         }
+     });       
+ });
 
-routerUsuarios.get("/email/:email", async (req, res) => {
-    const { ...rest } = req.params;
-    const pass = req.query.pass;
-    const email = rest.email;
-    await usuarios.getByMail(email, pass, u => {
-        if (u.length>0) {
-            req.session.login = true;
-        } else {
-            req.session.login = false;
-        }
-        res.status(200).json(u);
-    });
-});
+routerUsuarios.post("/login",
+    passport.authenticate("login", { failureRedirect: "/api/usuario/failLogin" }),
+    AuthController.postLogin,
+);
+routerUsuarios.get("/failLogin", AuthController.failLogin);
 
-routerUsuarios.post("/", async (req, res) => {
-    try {
-        const datos  = req.body;
-        await usuarios.altaUsuario(datos, usuario => {
-            res.status(200).json(usuario);
-        });
-    } catch (err) {
-        res.status(400).json({error: err});
-    }
-});
+routerUsuarios.post("/",
+    passport.authenticate("signup", { failureRedirect: "/api/usuario/failSignup" }),
+    AuthController.postSignup,
+);
+
+routerUsuarios.get("/failSignup", AuthController.failSignup);
+
+routerUsuarios.get("/logout", AuthController.logout);
 
 routerUsuarios.put("/:id", auth, async (req, res) => {
     try {

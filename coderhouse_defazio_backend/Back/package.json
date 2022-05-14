@@ -17,6 +17,7 @@
     "express-session": "^1.17.2",
     "knex": "^1.0.4",
     "latest": "^0.2.0",
+    "minimist": "^1.2.6",
     "mongoose": "^6.3.0",
     "mysql2": "^2.3.3",
     "nodemon": "^2.0.16",
@@ -30,7 +31,7 @@
   },
   "scripts": {
     "server": "nodemon --inspect ./src/server.js",
-    "start": "nodemon --inspect ./src/server.js"
+    "start": "nodemon --inspect ./src/server.js --port 8000"
   },
   "devDependencies": {
     "@faker-js/faker": "^6.2.0",
