@@ -1,17 +1,18 @@
 import express  from 'express';
 import { fork } from "child_process";
 
-const routerRandoms = express.Router();
-const computo = fork(`./src/utils/calculo.util.js`);
+const router = express.Router();
+let computo = fork(`./src/utils/calculo.util.js`);
 
-
-routerRandoms.get("/", (req, res) => {
-    let cant = req.query.cant;
-    if (cant === undefined) cant = 100000000;
+router.get("/", (req, res) => {
+    const {cant=100000000} = req.query;
     computo.on("message", (rsdo) => {
+        console.log(rsdo)
         res.status(200).send({ rsdo });
-      });
+        computo.kill();
+        computo = fork(`./src/utils/calculo.util.js`);
+    });
     computo.send(cant);
 });
 
-export default routerRandoms
+export default router

@@ -2,10 +2,10 @@ import express  from 'express';
 import Carrito from '../controlers/carrito.controler.js';
 import auth from '../middle/auth.middle.js';
 
-const routerCarrito = express.Router();
+const router = express.Router();
 const carrito = new Carrito();
 
-routerCarrito.get("/:id", auth, (req, res) => {
+router.get("/:id", auth, (req, res) => {
     const { ...rest } = req.params;
     const id = rest.id;
     carrito.getById(id, p => {
@@ -17,7 +17,7 @@ routerCarrito.get("/:id", auth, (req, res) => {
     });       
 });
 
-routerCarrito.get("/usuario/:email", auth, (req, res) => {
+router.get("/usuario/:email", auth, (req, res) => {
     const { ...rest } = req.params;
     const email = rest.email;
     carrito.geByUs(email, ordenes => {
@@ -25,7 +25,7 @@ routerCarrito.get("/usuario/:email", auth, (req, res) => {
     });
 });
 
-routerCarrito.post("/", auth, (req, res) => {
+router.post("/", auth, (req, res) => {
     try {
         const { datos, carrito, total, cantTotal } = req.body;
         carrito.generarOrden(datos, carrito, total, cantTotal, carrito => {
@@ -36,7 +36,7 @@ routerCarrito.post("/", auth, (req, res) => {
     }
 });
 
-routerCarrito.put("/:id", auth, (req, res) => {
+router.put("/:id", auth, (req, res) => {
     try {
         const CarritoNuevo = req.body;
         carrito.modi(CarritoNuevo, c => {
@@ -47,7 +47,7 @@ routerCarrito.put("/:id", auth, (req, res) => {
     } 
 });
 
-routerCarrito.delete("/:id", auth, (req, res) => {
+router.delete("/:id", auth, (req, res) => {
     try {
         const { ...rest } = req.params;
         const id = rest.id;
@@ -59,4 +59,4 @@ routerCarrito.delete("/:id", auth, (req, res) => {
     }
 });
 
-export default routerCarrito;
+export default router;

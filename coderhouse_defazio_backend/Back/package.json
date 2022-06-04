@@ -7,6 +7,8 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "babel": "^6.23.0",
+    "bcrypt": "^5.0.1",
     "better-sqlite3": "^7.5.0",
     "bootstrap": "^5.1.1",
     "connect-mongo": "^4.6.0",
@@ -30,8 +32,11 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "server": "nodemon --inspect ./src/server.js",
-    "start": "nodemon --inspect ./src/server.js --port 8000"
+    "server": "nodemon --inspect ./src/inicioSrv.js 8080",
+    "cluster": "node ./cluster.js 8081",
+    "pm2": "pm2 start ./pm2.config.cjs",
+    "4ever": "forever start ./src/inicioSrv.js 8085",
+    "start": "nodemon --inspect ./src/inicioSrv.js 8080"
   },
   "devDependencies": {
     "@faker-js/faker": "^6.2.0",

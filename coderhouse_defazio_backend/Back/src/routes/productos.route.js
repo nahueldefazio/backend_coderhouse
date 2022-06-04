@@ -2,16 +2,16 @@ import express  from 'express';
 import Productos from '../controlers/productos.controler.js';
 import auth from '../middle/auth.middle.js';
 
-const routerProd = express.Router();
+const router = express.Router();
 const prod = new Productos();
 
-routerProd.get("/", auth, (req, res) => {
+router.get("/", auth, (req, res) => {
     prod.getAll(p => {
         res.status(200).json(p);
     });
 });
 
-routerProd.get("/:id", auth, (req, res) => {
+router.get("/:id", auth, (req, res) => {
     const { ...rest } = req.params;
     const id = rest.id;
     prod.getById(id, p => {
@@ -23,7 +23,7 @@ routerProd.get("/:id", auth, (req, res) => {
     });       
 });
 
-routerProd.get("/categoria/:cat", auth, (req, res) => {
+router.get("/categoria/:cat", auth, (req, res) => {
     const { ...rest } = req.params;
     const cat = rest.cat;
     prod.getByCat(cat, p => {
@@ -31,7 +31,7 @@ routerProd.get("/categoria/:cat", auth, (req, res) => {
     });
 });
 
-routerProd.post("/", auth, (req, res) => {
+router.post("/", auth, (req, res) => {
     let admin = req.query.admin;
     if (admin!=true) {
         res.status(400).json({error: 400, descripción: 'Ruta Productos Mètodo Post NO Autorizado'});
@@ -56,7 +56,7 @@ routerProd.post("/", auth, (req, res) => {
     }
 });
 
-routerProd.put("/:id", auth, (req, res) => {
+router.put("/:id", auth, (req, res) => {
     let admin = req.query.admin;
     if (admin!=true) {
         res.status(400).json({error: 400, descripción: 'Ruta Productos Mètodo Put NO Autorizado'});
@@ -73,7 +73,7 @@ routerProd.put("/:id", auth, (req, res) => {
     }
 });
 
-routerProd.delete("/:id", auth, (req, res) => {
+router.delete("/:id", auth, (req, res) => {
     let admin = req.query.admin;
     if (admin!=true) {
         res.status(400).json({error: 400, descripción: 'Ruta Productos Mètodo Delete NO Autorizado'});
@@ -90,4 +90,4 @@ routerProd.delete("/:id", auth, (req, res) => {
     }
 });
 
-export default routerProd;
+export default router;

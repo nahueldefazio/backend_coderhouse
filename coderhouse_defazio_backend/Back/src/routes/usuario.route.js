@@ -4,10 +4,10 @@ import auth from '../middle/auth.middle.js';
 import passport from "../utils/passport.util.js";
 import * as AuthController from "../controlers/auth.controler.js";
 
-const routerUsuarios = express.Router();
+const router = express.Router();
 const usuarios = new Usuarios();
 
- routerUsuarios.get("/:id", auth, async (req, res) => {
+ router.get("/:id", auth, async (req, res) => {
      const { ...rest } = req.params;
      const id = rest.id;
      await usuarios.getById(id, u => {
@@ -19,22 +19,22 @@ const usuarios = new Usuarios();
      });       
  });
 
-routerUsuarios.post("/login",
+router.post("/login",
     passport.authenticate("login", { failureRedirect: "/api/usuario/failLogin" }),
     AuthController.postLogin,
 );
-routerUsuarios.get("/failLogin", AuthController.failLogin);
+router.get("/failLogin", AuthController.failLogin);
 
-routerUsuarios.post("/",
+router.post("/",
     passport.authenticate("signup", { failureRedirect: "/api/usuario/failSignup" }),
     AuthController.postSignup,
 );
 
-routerUsuarios.get("/failSignup", AuthController.failSignup);
+router.get("/failSignup", AuthController.failSignup);
 
-routerUsuarios.get("/logout", AuthController.logout);
+router.get("/logout", AuthController.logout);
 
-routerUsuarios.put("/:id", auth, async (req, res) => {
+router.put("/:id", auth, async (req, res) => {
     try {
         const usuarioN = req.body;
         await usuarios.modiUsuario(usuarioN, u => {
@@ -45,7 +45,7 @@ routerUsuarios.put("/:id", auth, async (req, res) => {
     } 
 });
 
-routerUsuarios.delete("/:id", auth, async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
     try {
         const { ...rest } = req.params;
         const id = rest.id;
@@ -57,4 +57,4 @@ routerUsuarios.delete("/:id", auth, async (req, res) => {
     }
 });
 
-export default routerUsuarios;
+export default router;
