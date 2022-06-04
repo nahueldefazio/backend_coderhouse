@@ -41,7 +41,7 @@ export const ItemListContainer = () => {
                 setLoading(false);
             }
          });
-    }, [category, busqueda])
+    }, [category, busqueda, setIsAuthenticated])
     return (
         <>
             <div className="container-fluid" id="listContainer">

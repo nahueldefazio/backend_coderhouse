@@ -6,7 +6,7 @@ import { UserAuthContext } from "../../context/LoginContext";
 
 
 export const TablaTest = () => {
-    const [loading, setLoading] = useState([]);
+    const [setLoading] = useState([]);
     const [items, setItems] = useState(null);
     const {setIsAuthenticated} = useContext(UserAuthContext);
     
@@ -21,7 +21,7 @@ export const TablaTest = () => {
                 setItems(res);
             }
         })     
-    }, [])
+    }, [setIsAuthenticated, setLoading])
     return (
         <div className="container mx-5">
             <h4>Detalle de Testeo Back de Productos Aleatorios</h4>

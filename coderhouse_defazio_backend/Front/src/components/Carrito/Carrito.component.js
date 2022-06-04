@@ -35,7 +35,7 @@ export const Carrito = () => {
             setIsAuthenticated(true);
             setIsAuthenticated(false);
         } 
-    }, [])
+    }, [isAuthenticated, setIsAuthenticated])
     return (
         <>
             <Container>

@@ -36,7 +36,7 @@ export const ItemDetalleContainer = () => {
                 setLoading(false);
             }            
          })            
-    }, [itemId])
+    }, [itemId, setIsAuthenticated])
 
     return (
         <>

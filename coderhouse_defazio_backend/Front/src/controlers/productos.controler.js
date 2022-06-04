@@ -1,4 +1,3 @@
-import { Axios } from 'axios';
 import 'dotenv/config';
 import AxiosMidle from '../midle/axios-midle.js'
 
